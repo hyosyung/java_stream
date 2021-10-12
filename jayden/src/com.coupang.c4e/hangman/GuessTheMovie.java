@@ -22,9 +22,17 @@ public class GuessTheMovie {
                 System.out.println("Please input API or TEXT");
                 continue;
             }
-            String movieName = new RandomMovieGenerator().getRandomMovie(MovieSrc.srcOf(fromTextOrApi));
-            HangManHandler hangManHandler = new HangManHandler(movieName);
-            hangManHandler.game();
+            try {
+                String movieName = new RandomMovieGenerator().getRandomMovie(MovieSrc.srcOf(fromTextOrApi));
+                HangManHandler hangManHandler = new HangManHandler(movieName);
+                hangManHandler.game();
+            }catch (EmptyListException e){
+                System.out.println(e.getMessage());
+                continue;
+            }catch (Exception e){
+                System.out.println("An error occurred. please retry.");
+                continue;
+            }
             break;
         }
     }

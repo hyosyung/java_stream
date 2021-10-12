@@ -43,7 +43,7 @@ public class RandomMovieGenerator {
         }
     }
 
-    public String getRandomMovie(MovieSrc src){
+    public String getRandomMovie(MovieSrc src) throws Exception {
         if(MovieSrc.FROM_TEXT.equals(src)) {
             try {
                 List<String> movies = Files.lines(Paths.get(MOVIES_TEXT_PATH)).filter(canWin()).map(String::trim).collect(Collectors.toList());
@@ -54,7 +54,10 @@ public class RandomMovieGenerator {
             }
         }
         else{
-            List<String> movies = getMoviesFromApi();
+            List<String> movies = getMoviesFromApi().stream().filter(str -> str!=null && !str.isBlank()).collect(Collectors.toList());
+            if(movies.isEmpty()){
+                throw new EmptyListException("movie list is empty. please retry.");
+            }
             return movies.get(new Random().nextInt(movies.size())).toLowerCase();
         }
     }
