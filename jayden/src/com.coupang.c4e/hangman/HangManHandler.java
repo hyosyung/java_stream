@@ -37,7 +37,7 @@ public class HangManHandler {
                 continue;
             }
             if(!isAlphabet(letter)){
-                System.out.println("Please input an alphabet.");
+                System.out.println("Please input an lowercase alphabet.");
                 continue;
             }
             guessOneLetter(input.charAt(0));
@@ -78,8 +78,6 @@ public class HangManHandler {
     }
 
     private boolean isAlphabet(Character c){
-        boolean isLowerCase = c.compareTo('a')>=0 && c.compareTo('z')<=0;
-        boolean isUpperCase = c.compareTo('A')>=0 && c.compareTo('Z')<=0;
-        return isLowerCase || isUpperCase;
+        return c.compareTo('a')>=0 && c.compareTo('z')<=0;
     }
 }
