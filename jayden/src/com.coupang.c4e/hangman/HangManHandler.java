@@ -1,9 +1,9 @@
 package src.com.coupang.c4e.hangman;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static src.com.coupang.c4e.hangman.HangManStatus.GameStatus.IN_GAME;
 
@@ -14,11 +14,8 @@ public class HangManHandler {
 
     public HangManHandler(String movieName){
         this.movieName = movieName;
-        Set<Character> movieNameSet = new HashSet<>();
+        Set<Character> movieNameSet = movieName.chars().mapToObj(c -> (char)c).collect(Collectors.toSet());
         movieNameSet.add(' ');
-        for(char c : movieName.toCharArray()){
-            movieNameSet.add(c);
-        }
         this.hangManStatus = new HangManStatus(movieNameSet);
     }
 
@@ -64,14 +61,16 @@ public class HangManHandler {
 
     public void printHangmanStatus(){
         StringBuilder guessResult = new StringBuilder();
-        for(char c : movieName.toCharArray()){
-            if(hangManStatus.getCheckedChars().contains(c)){
-                guessResult.append(c);
-            }
-            else{
-                guessResult.append('_');
-            }
-        }
+        movieName.chars().mapToObj(c->(char)c).forEach(
+                c-> {
+                    if (hangManStatus.getCheckedChars().contains(c)) {
+                        guessResult.append(c);
+                    }
+                    else{
+                        guessResult.append('_');
+                    }
+                }
+        );
         System.out.println("You are guessing: "+guessResult);
         String wrongLetters = String.format("You have guessed (%s) wrong letters: ",hangManStatus.getWrongChars().size());
         System.out.println(wrongLetters+hangManStatus.getWrongChars().stream().map(Objects::toString).reduce("",(a, b)->a+" "+b));

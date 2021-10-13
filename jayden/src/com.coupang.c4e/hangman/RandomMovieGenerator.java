@@ -64,11 +64,8 @@ public class RandomMovieGenerator {
 
     private Predicate<String> canWin() {
         return str -> {
-            Set<Character> letterSet = new HashSet<>();
+            Set<Character> letterSet = str.chars().mapToObj(c->(char)c).collect(Collectors.toSet());
             letterSet.add(' ');
-            for (char c : str.toCharArray()) {
-                letterSet.add(c);
-            }
             if (letterSet.size() > HangManStatus.MAX_COUNT+1) {
                 return false;
             }
